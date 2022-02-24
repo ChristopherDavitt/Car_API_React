@@ -11,13 +11,18 @@ import {
     Divider,
     Button,
     Box,
-    CssBaseline
+    CssBaseline,
+    Dialog, // new item
+    DialogActions, // new item
+    DialogContent, // new item
+    DialogContentText, // new item
+    DialogTitle // new item
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ChevronRight, ChevronLeft } from '@mui/icons-material';
 import { theme } from '../../Theme/themes';
 import { useNavigate } from 'react-router-dom';
-import { DataTable } from '../../components/'
+import { DataTable, CarForm } from '../../components/'
 
 const drawerWidth = 240;
 
@@ -86,12 +91,19 @@ const myStyles = {
 export const Dashboard = () => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false)
 
     const handleDrawerOpen = () => {
         setOpen(true);
     }
     const handleDrawerClose = () => {
         setOpen(false);
+    }
+    const handleDialogOpen = () => {
+        setDialogOpen(true);
+    }
+    const handleDialogClose = () => {
+        setDialogOpen(false);
     }
 
     const itemsList = [
@@ -121,7 +133,7 @@ export const Dashboard = () => {
                                 <MenuIcon />
                         </IconButton>
                         <Typography variant='h6' noWrap>Dashboard</Typography>
-                        <Button sx={myStyles.toolbar_button}>Create New Car</Button>
+                        <Button sx={myStyles.toolbar_button} onClick={handleDialogOpen}>Create New Car</Button>
                     </Toolbar>
 
             </AppBar>

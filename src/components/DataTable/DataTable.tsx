@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridValueGetterParams, GridSelectionModel } from '@mui/x-data-grid';
+import { 
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+
+} from '@mui/material';
 import { serverCalls } from '../../api';
 import { useGetData } from '../../custom-hooks'
-
+import { CarForm } from '../../components'
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 90 },
@@ -35,20 +44,54 @@ const columns: GridColDef[] = [
   },
 ];
 
+interface gridData{
+  data:{
+    id?:string;
+  }
+}
 export const DataTable = () => {
-      let { carData, getData } = useGetData();
+  let { carData, getData } = useGetData();
+  let [ open, setOpen ] = useState(false);
+  let [ gridData, setData ] = useState<GridSelectionModel>([ ])
 
-    return (
-      <div style={{ height: 400, width: '100%' }}>
-          <h2>Cars In Inventory</h2>
-        <DataGrid
-          rows={carData}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-          disableSelectionOnClick
-        />
-      </div>
-    );
+  let handleOpen = () => {
+    setOpen(true)
+  }
+  let handleClose = () => {
+    setOpen(false);
+  }
+
+  let deleteData = async() => {
+    for (let id in gridData){
+      await serverCalls.delete(`${gridData[id]}`)
+    }
+    
+    window.location.reload()
+  }
+  console.log(gridData)
+return (
+  <div style={{ height: 400, width: '100%' }}>
+      <h2>Cars In Inventory</h2>
+    <DataGrid
+      rows={carData}
+      columns={columns}
+      pageSize={5}
+      rowsPerPageOptions={[5]}
+      checkboxSelection
+      onSelectionModelChange={(newSelectionModel)=>{setData(newSelectionModel);}}
+    />
+    <Button onClick={handleOpen}>Update Car</Button>
+    <Button variant='contained' color='secondary' onClick={deleteData}>Delete car</Button>
+    <Dialog open={open} onClose={handleClose} aria-labelledby='form-dialog-title'>
+      <DialogTitle id='form-dialog-title'>Update a Car</DialogTitle>
+      <DialogContent>
+        <DialogContentText>Car Id: {gridData[0]}</DialogContentText>
+        <CarForm id={ `${gridData[0]}` } />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color='primary'>Cancel</Button>
+      </DialogActions>
+    </Dialog>
+  </div>
+);
 }

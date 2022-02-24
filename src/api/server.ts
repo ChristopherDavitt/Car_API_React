@@ -1,10 +1,10 @@
 import { stringify } from "querystring";
 
-let token = '12eae16a970af0ef5323ea9add761d7d0d9c4f67bd5fe3d8'
+let token = 'bfaaa2dabe54628af62a488e8c68cf82c2beaf998f012651'
 
 export const serverCalls = {
     get: async() => {
-        const response = await fetch(`https://drone-inventory-tm-81.herokuapp.com/api/drones`,{
+        const response = await fetch(`https://drone-inventory-81.herokuapp.com/api/drones`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ export const serverCalls = {
         return await response.json()
     },
     create: async( data: any = {} ) => {
-        const response = await fetch(`https://drone-inventory-tm-81.herokuapp.com/api/drones`,{
+        const response = await fetch(`https://drone-inventory-81.herokuapp.com/api/drones`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export const serverCalls = {
         return await response.json()
     },
     update: async( id:string, data:any = {} ) => {
-        const response = await fetch(`https://drone-inventory-tm-81.herokuapp.com/api/drones/${id}`,{
+        const response = await fetch(`https://drone-inventory-81.herokuapp.com/api/drones/${id}`,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export const serverCalls = {
         
     },
     delete: async(id:string) => {
-        const response = await fetch(`https://drone-inventory-tm-81.herokuapp.com/api/drones/${id}`,{
+        const response = await fetch(`https://drone-inventory-81.herokuapp.com/api/drones/${id}`,{
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
